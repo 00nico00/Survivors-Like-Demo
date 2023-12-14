@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/NicoFramework/Editor/View/BehaviorTreeWindow.uss?fileID=7433441132597879392&amp;guid=5d5a763e121804e45907e7ce488c0e4c&amp;type=3#BehaviorTreeWindow" />
+    <NicoFramework.Editor.View.SplitView fixed-pane-initial-dimension="300">
+        <ui:VisualElement name="Left">
+            <ui:Label text="Inspector" display-tooltip-when-elided="true" name="InspectorTitle" style="background-color: rgb(37, 37, 37); -unity-font: none; font-size: 16px; -unity-font-style: normal; -unity-text-align: upper-center;" />
+            <NicoFramework.Editor.View.InspectorView style="flex-grow: 1;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Right" style="flex-shrink: 0;">
+            <NicoFramework.Editor.View.TreeView focusable="true" style="flex-grow: 1;" />
+        </ui:VisualElement>
+    </NicoFramework.Editor.View.SplitView>
+</ui:UXML>

@@ -33,6 +33,10 @@ namespace PlayerScripts
         /// </summary>
         private void ShowGun()
         {
+            if (gunPrefab == null)
+            {
+                return;
+            }
             _currentGun = Instantiate(gunPrefab, transform);
             _gun = _currentGun.GetComponent<IGun>();
             _currentGun.transform.localPosition =

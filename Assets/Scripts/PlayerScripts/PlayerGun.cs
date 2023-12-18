@@ -14,7 +14,7 @@ namespace PlayerScripts
         private IGun _gun;
         private GameObject _currentGun;
 
-#if UNITY_EDITOR        
+#if UNITY_EDITOR
         private void OnValidate()
         {
             if (gunConfig != null)
@@ -27,7 +27,7 @@ namespace PlayerScripts
             }
         }
 #endif
-        
+
         private void Start()
         {
             ShowGun();
@@ -63,8 +63,9 @@ namespace PlayerScripts
         private void HandleGunDirection()
         {
             var mousePos = GameInput.Instance.GetMousePosInWorldPoint();
-            var direction = (mousePos -
-                             new Vector2(_currentGun.transform.position.x,_currentGun.transform.position.y)).normalized;
+            var direction =
+                (mousePos - new Vector2(_currentGun.transform.position.x, _currentGun.transform.position.y))
+                .normalized;
             _currentGun.transform.right = direction;
             HandleGunFlip(direction);
         }
@@ -77,7 +78,10 @@ namespace PlayerScripts
             int flipX = player.IsFacingRight ? 1 : -1;
             int flipY = direction.x > 0f ? 1 : -1;
 
-            _currentGun.transform.localScale = new Vector3(flipX, flipY, _currentGun.transform.localScale.z);
+            var scale = _currentGun.transform.localScale;
+
+            _currentGun.transform.localScale =
+                new Vector3(flipX * Math.Abs(scale.x), flipY * Math.Abs(scale.y), scale.z);
         }
     }
 }

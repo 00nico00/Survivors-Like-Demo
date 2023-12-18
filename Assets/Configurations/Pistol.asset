@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunName: Pistol
   interval: 0.7
-  damage: 0
-  gunSprite: {fileID: 4371079567834484094, guid: 45af50753e4a1ea40946a9eceeb76e6c, type: 3}
-  bulletPrefab: {fileID: 0}
   transformOffset: {x: 0.009, y: -0.196}
+  gunPrefab: {fileID: 8864029526526360814, guid: f5ff54c95881bed4fb1c18154b07874a, type: 3}
+  bulletConfigSO: {fileID: 0}

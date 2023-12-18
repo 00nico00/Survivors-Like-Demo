@@ -1,5 +1,6 @@
 using System;
 using Guns;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -7,24 +8,26 @@ namespace PlayerScripts
 {
     public class PlayerGun : MonoBehaviour
     {
-        [SerializeField] private GameObject gunPrefab;
+        [SerializeField] private GunConfigSO gunConfig;
         [SerializeField] private Player player;
 
         private IGun _gun;
         private GameObject _currentGun;
 
+#if UNITY_EDITOR        
         private void OnValidate()
         {
-            if (gunPrefab != null)
+            if (gunConfig != null)
             {
-                var gun = gunPrefab.GetComponent<IGun>();
+                var gun = gunConfig.gunPrefab.GetComponent<IGun>();
                 if (gun == null)
                 {
-                    UnityEngine.Debug.LogError("提供的 gunPrefab 没有实现 IGun 接口");
+                    UnityEngine.Debug.LogError("提供的 gunConfig 没有实现 IGun 接口");
                 }
             }
         }
-
+#endif
+        
         private void Start()
         {
             ShowGun();
@@ -32,26 +35,26 @@ namespace PlayerScripts
 
         private void Update()
         {
-            if (gunPrefab != null)
+            if (gunConfig != null)
             {
                 HandleGunDirection();
             }
         }
 
         /// <summary>
-        /// 将 gunPrefab 挂载到
+        /// 将 gunConfig 挂载到
         /// </summary>
         private void ShowGun()
         {
-            if (gunPrefab == null)
+            if (gunConfig == null)
             {
                 return;
             }
 
-            _currentGun = Instantiate(gunPrefab, transform);
+            _currentGun = Instantiate(gunConfig.gunPrefab, transform);
             _gun = _currentGun.GetComponent<IGun>();
             _currentGun.transform.localPosition =
-                new Vector3(_gun.GunPara.transformOffset.x, _gun.GunPara.transformOffset.y, 0);
+                new Vector3(_gun.GunConfig.transformOffset.x, _gun.GunConfig.transformOffset.y, 0);
         }
 
         /// <summary>

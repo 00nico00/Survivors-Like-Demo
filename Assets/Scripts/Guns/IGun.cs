@@ -4,7 +4,7 @@ namespace Guns
 {
     public interface IGun
     {
-        GunConfigSO GunPara { get; }
+        GunConfigSO GunConfig { get; }
 
         void Fire();
     }

@@ -7,9 +7,8 @@ namespace ScriptableObjects
     {
         [Header("枪械名字")] public string gunName;
         [Header("射击间隔")] public float interval;
-        [Header("伤害")] public int damage;
-        [Header("枪械图片")] public Sprite gunSprite;
-        [Header("子弹预制体")] public GameObject bulletPrefab;
         [Header("枪械Transform偏移量")] public Vector2 transformOffset;
+        [Header("枪械预制体")] public GameObject gunPrefab;
+        [Header("子弹配置")] public BulletConfigSO bulletConfigSO;
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using Bullets;
 using NicoFramework.Extensions;
 using NicoFramework.Tools.EventCenter;
 using NicoFramework.Tools.Timer;
@@ -10,12 +11,23 @@ namespace Guns
 {
     public class Pistol : MonoBehaviour, IGun
     {
-        public GunConfigSO GunPara => _gunConfigSO;
+        public GunConfigSO GunConfig => _gunConfigSO;
 
         [SerializeField] private GunConfigSO _gunConfigSO;
         [SerializeField] private Transform muzzle;
 
         private bool _isInCoolDown;
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            var bullet = _gunConfigSO.bulletConfigSO.bulletPrefab.GetComponent<IBullet>();
+            if (bullet == null)
+            {
+                Debug.Log("此 GunConfigSO 中的 bulletPrefab 没有实现 IBullet 接口");
+            }
+        }
+#endif
 
         private void Start()
         {
@@ -31,14 +43,12 @@ namespace Guns
             {
                 return;
             }
-            
+
             TimerManager.Instance.CreateTimer()
                 .SetDuration(TimeSpan.FromSeconds(_gunConfigSO.interval))
                 .OnCrate(() => _isInCoolDown = true)
                 .OnFinalLoopFinish(() => _isInCoolDown = false)
                 .Register();
-            
-            
         }
     }
 }

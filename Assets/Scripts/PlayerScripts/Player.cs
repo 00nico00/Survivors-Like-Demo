@@ -1,11 +1,13 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace PlayerScripts
 {
     public class Player : MonoBehaviour
     {
         [SerializeField] private float runSpeed;
+        [SerializeField] private PlayerAnimation playerAnimation;
 
         private Rigidbody2D _rb;
         private bool _isWalking;
@@ -21,6 +23,8 @@ namespace PlayerScripts
         private void Update()
         {
             HandleMovement();
+            // Handle animations between Idle and Walk
+            playerAnimation.HandleWalkingAndIdleAnimation(IsWalking);
         }
 
         private void HandleMovement()

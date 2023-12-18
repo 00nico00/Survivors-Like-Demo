@@ -16,4 +16,4 @@ MonoBehaviour:
   interval: 0.7
   transformOffset: {x: 0.009, y: -0.196}
   gunPrefab: {fileID: 8864029526526360814, guid: f5ff54c95881bed4fb1c18154b07874a, type: 3}
-  bulletConfigSO: {fileID: 0}
+  bulletConfigSO: {fileID: 11400000, guid: 0915625f69887a24d8e3508910e9f7ef, type: 2}

@@ -1,4 +1,5 @@
 using System;
+using GameEvent;
 using NicoFramework.Tools.EventCenter;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -44,10 +45,5 @@ namespace PlayerScripts
         {
             return Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         }
-    }
-
-    public class InputEvent
-    {
-        public class AttackEvent {}
     }
 }

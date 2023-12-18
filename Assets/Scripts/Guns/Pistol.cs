@@ -1,9 +1,9 @@
 using System;
 using Bullets;
+using GameEvent;
 using NicoFramework.Extensions;
 using NicoFramework.Tools.EventCenter;
 using NicoFramework.Tools.Timer;
-using PlayerScripts;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -12,6 +12,7 @@ namespace Guns
     public class Pistol : MonoBehaviour, IGun
     {
         public GunConfigSO GunConfig => _gunConfigSO;
+        public bool IsInCoolDown => _isInCoolDown;
 
         [SerializeField] private GunConfigSO _gunConfigSO;
         [SerializeField] private Transform muzzle;
@@ -33,11 +34,14 @@ namespace Guns
         {
             EventCenter.Default.Receive<InputEvent.AttackEvent>(_ =>
             {
-                Fire();
+                // 此处为了使得 Fire 和 Animation 同步消息触发，因此套了一层新的事件来统一触发两者
+                OnAttackEvent();
             }).BindLifetime(this);
+
+            EventCenter.Default.Receive<GunEvent.FireEvent>(_ => { Fire(); }).BindLifetime(this);
         }
 
-        public void Fire()
+        private void OnAttackEvent()
         {
             if (_isInCoolDown)
             {
@@ -49,6 +53,14 @@ namespace Guns
                 .OnCrate(() => _isInCoolDown = true)
                 .OnFinalLoopFinish(() => _isInCoolDown = false)
                 .Register();
+            
+            // 继续触发 Fire 的事件
+            EventCenter.Default.Publish(new GunEvent.FireEvent());
+        }
+
+        public void Fire()
+        {
+            Debug.Log("fire");
         }
     }
 }

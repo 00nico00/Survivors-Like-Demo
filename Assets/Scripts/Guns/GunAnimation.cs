@@ -1,7 +1,7 @@
 using System;
 using NicoFramework.Extensions;
 using NicoFramework.Tools.EventCenter;
-using PlayerScripts;
+using GameEvent;
 using UnityEngine;
 
 namespace Guns
@@ -19,7 +19,7 @@ namespace Guns
 
         private void Start()
         {
-            EventCenter.Default.Receive<InputEvent.AttackEvent>(_ =>
+            EventCenter.Default.Receive<GunEvent.FireEvent>(_ =>
             {
                 PlayFireAnimation();
             }).BindLifetime(this);

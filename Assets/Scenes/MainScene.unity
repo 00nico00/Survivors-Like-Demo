@@ -350,6 +350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunPrefab: {fileID: 8864029526526360814, guid: f5ff54c95881bed4fb1c18154b07874a, type: 3}
+  player: {fileID: 1359943606}
 --- !u!1 &1192013657
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using System;
+using NicoFramework.Tools.EventCenter;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,8 +10,7 @@ namespace PlayerScripts
         private GameInput() { }
 
         private PlayerInputAction _playerInputAction;
-
-        public event EventHandler OnAttackAction;
+        
 
         protected override void Awake()
         {
@@ -32,7 +32,7 @@ namespace PlayerScripts
 
         private void Attack_performed(InputAction.CallbackContext obj)
         {
-            OnAttackAction?.Invoke(this, EventArgs.Empty);
+            EventCenter.Default.Publish(new InputEvent.AttackEvent());
         }
 
         public Vector2 GetMovementNormalized()
@@ -44,5 +44,10 @@ namespace PlayerScripts
         {
             return Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         }
+    }
+
+    public class InputEvent
+    {
+        public class AttackEvent {}
     }
 }

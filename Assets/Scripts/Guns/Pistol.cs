@@ -12,7 +12,6 @@ namespace Guns
     public class Pistol : MonoBehaviour, IGun
     {
         public GunConfigSO GunConfig => _gunConfigSO;
-        public bool IsInCoolDown => _isInCoolDown;
 
         [SerializeField] private GunConfigSO _gunConfigSO;
         [SerializeField] private Transform muzzle;

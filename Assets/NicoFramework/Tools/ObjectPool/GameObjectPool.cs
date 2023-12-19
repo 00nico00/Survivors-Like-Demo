@@ -13,6 +13,7 @@ namespace NicoFramework.Tools.ObjectPool
 
         private bool isNeedGenerate = false;
         private string generateName;
+        private string generatePath;
 
         private void Awake()
         {
@@ -23,14 +24,14 @@ namespace NicoFramework.Tools.ObjectPool
             }
         }
 
-        public GameObject Get(string prefabName, Vector3 position, Quaternion rotation)
+        public GameObject Get(string prefabName, string prefabPath, Vector3 position, Quaternion rotation)
         {
             var key = prefabName;
 
             // 如果对象池中没有这个物体，则第一次初始化到水位线
             if (!pool.ContainsKey(key)) {
                 pool[key] = new List<GameObject>();
-                InitializeToWaterLevel(key);
+                InitializeToWaterLevel(key, prefabPath);
             }
 
             GameObject obj;
@@ -47,10 +48,11 @@ namespace NicoFramework.Tools.ObjectPool
                 if (pool[key].Count < WaterLevel) {
                     isNeedGenerate = true;
                     generateName = prefabName;
+                    generatePath = prefabPath;
                 }
             } else {
                 Debug.Log("水位线可能较低");
-                obj = Instantiate(Resources.Load(key), position, rotation, transform) as GameObject;
+                obj = Instantiate(Resources.Load<GameObject>(prefabPath), position, rotation, transform);
             }
 
             return obj;
@@ -68,21 +70,22 @@ namespace NicoFramework.Tools.ObjectPool
             obj.SetActive(false);
         }
 
-        private void InitializeToWaterLevel(string key)
+        private void InitializeToWaterLevel(string key, string path)
         {
-            GenerateToPool(key, WaterLevel);
+            GenerateToPool(key, WaterLevel, path);
         }
 
-        private void GenerateToWaterLevel(string key)
+        private void GenerateToWaterLevel(string key, string path)
         {
             var currCount = pool[key].Count;
-            GenerateToPool(key, WaterLevel - currCount);
+            GenerateToPool(key, WaterLevel - currCount, path);
         }
 
-        private void GenerateToPool(string key, int num)
+        private void GenerateToPool(string key, int num, string path)
         {
-            for (int i = 0; i < num; i++) {
-                var obj = Instantiate(Resources.Load(key), transform) as GameObject;
+            for (int i = 0; i < num; i++)
+            {
+                var obj = Instantiate(Resources.Load<GameObject>(path), transform);
                 obj.SetActive(false);
                 pool[key].Add(obj);
             }
@@ -91,7 +94,7 @@ namespace NicoFramework.Tools.ObjectPool
         private void Update()
         {
             if (isNeedGenerate) {
-                GenerateToWaterLevel(generateName);
+                GenerateToWaterLevel(generateName, generatePath);
                 isNeedGenerate = false;
             }
         }

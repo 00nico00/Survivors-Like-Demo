@@ -3,9 +3,11 @@ using Bullets;
 using GameEvent;
 using NicoFramework.Extensions;
 using NicoFramework.Tools.EventCenter;
+using NicoFramework.Tools.ObjectPool;
 using NicoFramework.Tools.Timer;
 using ScriptableObjects;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Guns
 {
@@ -52,14 +54,22 @@ namespace Guns
                 .OnCrate(() => _isInCoolDown = true)
                 .OnFinalLoopFinish(() => _isInCoolDown = false)
                 .Register();
-            
+
             // 继续触发 Fire 的事件
             EventCenter.Default.Publish(new GunEvent.FireEvent());
         }
 
         public void Fire()
         {
-            Debug.Log("fire");
+            var bullet =
+                GameObjectPool.Instance.Get(Constants.PistolBulletPrefabName,
+                    Constants.PistolBulletPrefabPath,
+                    muzzle.position, 
+                    Quaternion.identity);
+            // 设置子弹偏转角度
+            float angle = Random.Range(-3f, 3f);
+
+            bullet.GetComponent<IBullet>().InitOnFire(angle, transform.right);
         }
     }
 }
